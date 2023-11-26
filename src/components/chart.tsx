@@ -30,7 +30,9 @@ const ChartComponent = (props: ChartComponentProps) => {
     console.log("updateSize");
     if (plotContainerRef.current) {
       setSize({
+        // @ts-ignore
         width: plotContainerRef.current.offsetWidth,
+        // @ts-ignore
         height: plotContainerRef.current.offsetHeight,
       });
     }

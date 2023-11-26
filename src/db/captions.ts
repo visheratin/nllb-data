@@ -1,8 +1,6 @@
 "use server";
 import { db } from "./db";
 
-export const runtime = "edge";
-
 export interface StoredCaption {
   lang: string;
   text: string;

@@ -4,6 +4,8 @@ import { DisplayComponent } from "@/components/display";
 import GalleryComponent from "@/components/gallery";
 import { useState } from "react";
 
+export const runtime = "edge";
+
 export default function Home() {
   const [imageIDs, setImageIDs] = useState<string[]>([]);
   const [selectedID, setSelectedID] = useState<string>("");
