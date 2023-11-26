@@ -20,6 +20,7 @@ interface ChartComponentProps {
 const ChartComponent = (props: ChartComponentProps) => {
   const [data, setData] = useState<Coords[]>([]);
   const [plotData, setPlotData] = useState<PlotData>({ x: [], y: [] });
+  const [markerSize, setMarkerSize] = useState<number>(2);
 
   const [size, setSize] = useState({ width: 0, height: 0 });
   const plotContainerRef = useRef(null);
@@ -35,11 +36,20 @@ const ChartComponent = (props: ChartComponentProps) => {
     }
   };
 
+  const updateMarkerSize = (xDiff: number, yDiff: number) => {
+    if (xDiff < 40 || yDiff < 40) {
+      setMarkerSize(5);
+    } else {
+      setMarkerSize(2);
+    }
+  };
+
   const filterData = (eventData: any) => {
     const xMin = eventData["xaxis.range[0]"];
     const xMax = eventData["xaxis.range[1]"];
     const yMin = eventData["yaxis.range[0]"];
     const yMax = eventData["yaxis.range[1]"];
+    updateMarkerSize(xMax - xMin, yMax - yMin);
     const ids = [];
     const xc = [];
     const yc = [];
@@ -104,7 +114,7 @@ const ChartComponent = (props: ChartComponentProps) => {
             type: "scattergl",
             marker: {
               color: "rgb(17, 157, 255)",
-              size: 2,
+              size: markerSize,
             },
             showlegend: false,
           },
@@ -113,15 +123,15 @@ const ChartComponent = (props: ChartComponentProps) => {
           width: size.width,
           height: size.height,
           autosize: true,
-          hovermode: false,
-          xaxis: {
-            showgrid: false,
-            zeroline: false,
-          },
-          yaxis: {
-            showgrid: false,
-            zeroline: false,
-          },
+          // hovermode: false,
+          // xaxis: {
+          //   showgrid: false,
+          //   zeroline: false,
+          // },
+          // yaxis: {
+          //   showgrid: false,
+          //   zeroline: false,
+          // },
           margin: {
             l: 0,
             r: 0,
