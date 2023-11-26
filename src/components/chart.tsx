@@ -76,7 +76,7 @@ const ChartComponent = (props: ChartComponentProps) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("https://nllb-data/view/coords.json");
+        const response = await fetch("https://nllb-data.com/view/coords.json");
         const jsonData = await response.json();
         jsonData.sort(() => Math.random() - 0.5);
         setData(jsonData);
