@@ -123,15 +123,15 @@ const ChartComponent = (props: ChartComponentProps) => {
           width: size.width,
           height: size.height,
           autosize: true,
-          // hovermode: false,
-          // xaxis: {
-          //   showgrid: false,
-          //   zeroline: false,
-          // },
-          // yaxis: {
-          //   showgrid: false,
-          //   zeroline: false,
-          // },
+          hovermode: false,
+          xaxis: {
+            showgrid: false,
+            zeroline: false,
+          },
+          yaxis: {
+            showgrid: false,
+            zeroline: false,
+          },
           margin: {
             l: 0,
             r: 0,
