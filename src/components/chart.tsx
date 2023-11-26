@@ -2,8 +2,6 @@
 import { useEffect, useRef, useState } from "react";
 import Plot from "react-plotly.js";
 
-const maxIDs = 96;
-
 interface Coords {
   id: string;
   x: number;
@@ -27,7 +25,6 @@ const ChartComponent = (props: ChartComponentProps) => {
   const plotContainerRef = useRef(null);
 
   const updateSize = () => {
-    console.log("updateSize");
     if (plotContainerRef.current) {
       setSize({
         // @ts-ignore
@@ -39,7 +36,6 @@ const ChartComponent = (props: ChartComponentProps) => {
   };
 
   const filterData = (eventData: any) => {
-    console.log(eventData);
     const xMin = eventData["xaxis.range[0]"];
     const xMax = eventData["xaxis.range[1]"];
     const yMin = eventData["yaxis.range[0]"];
@@ -62,7 +58,6 @@ const ChartComponent = (props: ChartComponentProps) => {
         yc.push(y);
       }
     }
-    console.log(ids.length);
     props.onZoom(ids);
     setPlotData({ x: xc, y: yc });
   };
@@ -80,7 +75,7 @@ const ChartComponent = (props: ChartComponentProps) => {
         const jsonData = await response.json();
         jsonData.sort(() => Math.random() - 0.5);
         setData(jsonData);
-        const subset = jsonData.slice(0, maxIDs);
+        const subset = jsonData.slice(0, 96);
         const ids = subset.map((item: Coords) => item.id);
         props.onZoom(ids);
         const xc = [];

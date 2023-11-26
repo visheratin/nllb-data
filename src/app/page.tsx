@@ -1,10 +1,14 @@
 "use client";
-import ChartComponent from "@/components/chart";
 import { DisplayComponent } from "@/components/display";
 import GalleryComponent from "@/components/gallery";
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import dynamic from "next/dynamic";
 
 export const runtime = "edge";
+
+const ChartComponent = dynamic(() => import("@/components/chart"), {
+  ssr: false,
+});
 
 export default function Home() {
   const [imageIDs, setImageIDs] = useState<string[]>([]);
