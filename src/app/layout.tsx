@@ -6,13 +6,13 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "NLLB-CLIP data viewer",
-  metadataBase: new URL("https://nllb-data.pages.dev/"),
+  metadataBase: new URL("https://nllb-data.pages.dev"),
   openGraph: {
     title: "NLLB-CLIP data viewer",
-    url: "https://nllb-data.pages.dev/",
+    url: "https://nllb-data.pages.dev",
     images: [
       {
-        url: "https://nllb-data.pages.dev/og.webp",
+        url: "/og.webp",
         width: 1200,
         height: 670,
       },
@@ -23,7 +23,7 @@ export const metadata = {
   twitter: {
     card: "summary",
     creator: "@visheratin",
-    images: "https://nllb-data.pages.dev/og.webp",
+    images: "/og.webp",
   },
 };
 
