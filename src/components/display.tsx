@@ -28,7 +28,7 @@ export const DisplayComponent = (props: DisplayComponentProps) => {
     if (!props.id || props.id === "") {
       return;
     }
-    getCaptions("be7cc501-6cb9-43a8-ac9a-6e3ff05e8014").then((captions) => {
+    getCaptions(props.id).then((captions) => {
       const res: Caption[] = [];
       langMap.forEach((value, key) => {
         const caption = captions.find((caption) => caption.lang === key);
