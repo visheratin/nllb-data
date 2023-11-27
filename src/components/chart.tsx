@@ -6,11 +6,13 @@ interface Coords {
   id: string;
   x: number;
   y: number;
+  cluster: number;
 }
 
 interface PlotData {
   x: number[];
   y: number[];
+  c: number[];
 }
 
 interface ChartComponentProps {
@@ -19,7 +21,7 @@ interface ChartComponentProps {
 
 const ChartComponent = (props: ChartComponentProps) => {
   const [data, setData] = useState<Coords[]>([]);
-  const [plotData, setPlotData] = useState<PlotData>({ x: [], y: [] });
+  const [plotData, setPlotData] = useState<PlotData>({ x: [], y: [], c: [] });
   const [markerSize, setMarkerSize] = useState<number>(2);
 
   const [size, setSize] = useState({ width: 0, height: 0 });
@@ -53,8 +55,9 @@ const ChartComponent = (props: ChartComponentProps) => {
     const ids = [];
     const xc = [];
     const yc = [];
+    const cc = [];
     for (let i = 0; i < data.length; i++) {
-      const { id, x, y } = data[i];
+      const { id, x, y, cluster } = data[i];
       let ok = true;
       if (xMin && xMax) {
         ok = ok && x >= xMin && x <= xMax;
@@ -66,10 +69,11 @@ const ChartComponent = (props: ChartComponentProps) => {
         ids.push(id);
         xc.push(x);
         yc.push(y);
+        cc.push(cluster);
       }
     }
     props.onZoom(ids);
-    setPlotData({ x: xc, y: yc });
+    setPlotData({ x: xc, y: yc, c: cc });
   };
 
   useEffect(() => {
@@ -90,11 +94,13 @@ const ChartComponent = (props: ChartComponentProps) => {
         props.onZoom(ids);
         const xc = [];
         const yc = [];
+        const cc = [];
         for (let i = 0; i < jsonData.length; i++) {
           xc.push(jsonData[i].x);
           yc.push(jsonData[i].y);
+          cc.push(jsonData[i].cluster);
         }
-        setPlotData({ x: xc, y: yc });
+        setPlotData({ x: xc, y: yc, c: cc });
       } catch (error) {
         console.error("Error fetching data:", error);
       }

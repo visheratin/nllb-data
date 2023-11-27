@@ -1,7 +1,7 @@
 "use client";
 import { DisplayComponent } from "@/components/display";
 import GalleryComponent from "@/components/gallery";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import dynamic from "next/dynamic";
 
 export const runtime = "edge";
