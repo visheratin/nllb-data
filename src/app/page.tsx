@@ -4,9 +4,6 @@ import GalleryComponent from "@/components/gallery";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import IntroModal from "@/components/info";
-import { ClerkProvider } from "@clerk/nextjs";
-
-export const runtime = "edge";
 
 const ChartComponent = dynamic(() => import("@/components/chart"), {
   ssr: false,

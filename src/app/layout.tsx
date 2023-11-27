@@ -4,6 +4,8 @@ import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
+export const runtime = "edge";
+
 export const metadata = {
   title: "NLLB-CLIP data viewer",
   metadataBase: new URL("https://nllb-data.pages.dev"),
