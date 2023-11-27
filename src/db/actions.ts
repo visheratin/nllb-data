@@ -30,8 +30,8 @@ export const editCaption = async (
     id,
     langCode,
     value,
-    user_id: userId,
-    created_at: new Date(),
+    userID: userId,
+    createdAt: new Date(),
   };
   await db.insert(edits).values(update);
 };
@@ -44,8 +44,8 @@ export const reportImage = async (id: string, reason: string) => {
   const report: InsertReport = {
     id,
     reason,
-    user_id: userId,
-    created_at: new Date(),
+    userID: userId,
+    createdAt: new Date(),
   };
   await db.insert(reports).values(report);
 };
