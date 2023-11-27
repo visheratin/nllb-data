@@ -20,7 +20,7 @@ export const DisplayComponent = (props: DisplayComponentProps) => {
   const [captions, setCaptions] = useState<Caption[]>([]);
   const selectRef = createRef<HTMLSelectElement>();
   const [captionValue, setCaptionValue] = useState("");
-  const reportRef = createRef<HTMLTextAreaElement>();
+  const [reportValue, setReportValue] = useState("");
   const [processing, setProcessing] = useState(false);
 
   const setValueFromSelect = (items: Caption[]) => {
@@ -80,13 +80,12 @@ export const DisplayComponent = (props: DisplayComponentProps) => {
   };
 
   const submitReport = async () => {
-    if (reportRef.current && reportRef.current.value !== "") {
+    if (reportValue !== "") {
       setProcessing(true);
-      const text = reportRef.current.value;
       try {
-        await reportImage(props.id, text);
-        reportRef.current.value = "";
+        await reportImage(props.id, reportValue);
         toast.success("Report submitted successfully!");
+        setReportValue("");
       } catch (e) {
         toast.error(e as string);
       }
@@ -96,7 +95,7 @@ export const DisplayComponent = (props: DisplayComponentProps) => {
 
   return (
     <>
-      <ToastContainer position="top-center" autoClose={5000} />
+      <ToastContainer position="top-center" autoClose={1500} />
       {captions.length > 0 && (
         <div className="flex flex-col items-center justify-center p-6 space-y-4 bg-white">
           <img
@@ -136,12 +135,13 @@ export const DisplayComponent = (props: DisplayComponentProps) => {
                   Suggest edits
                 </button>
                 <textarea
-                  ref={reportRef}
                   dir="auto"
                   className="w-full mt-3 p-2 text-gray-700 bg-gray-100 border border-gray-300 rounded-sm focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Report a problem with this image"
                   rows={2}
                   disabled={processing}
+                  value={reportValue}
+                  onChange={(e) => setReportValue(e.target.value)}
                 ></textarea>
                 <button
                   className="w-full mt-1 p-2 text-white bg-red-500 rounded-sm"

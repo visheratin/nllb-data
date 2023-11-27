@@ -33,7 +33,12 @@ export const editCaption = async (
     userID: userId,
     createdAt: new Date(),
   };
-  await db.insert(edits).values(update);
+  try {
+    await db.insert(edits).values(update);
+  } catch (e) {
+    console.log(e);
+    return;
+  }
 };
 
 export const reportImage = async (id: string, reason: string) => {
@@ -47,5 +52,10 @@ export const reportImage = async (id: string, reason: string) => {
     userID: userId,
     createdAt: new Date(),
   };
-  await db.insert(reports).values(report);
+  try {
+    await db.insert(reports).values(report);
+  } catch (e) {
+    console.log(e);
+    return;
+  }
 };
