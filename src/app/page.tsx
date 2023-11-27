@@ -4,6 +4,7 @@ import GalleryComponent from "@/components/gallery";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import IntroModal from "@/components/info";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const ChartComponent = dynamic(() => import("@/components/chart"), {
   ssr: false,
@@ -36,7 +37,7 @@ export default function Home() {
   }, []);
 
   return (
-    <>
+    <ClerkProvider>
       {userAck ? (
         <main className="min-h-screen flex bg-white">
           <div className="flex flex-col w-2/3">
@@ -57,6 +58,6 @@ export default function Home() {
       ) : (
         <IntroModal onConfirm={handleAck} />
       )}
-    </>
+    </ClerkProvider>
   );
 }

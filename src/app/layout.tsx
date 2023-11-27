@@ -37,7 +37,7 @@ export default function RootLayout({
   return (
     <html lang="en" id="root">
       <body className={inter.className}>
-        <ClerkProvider>{children}</ClerkProvider>
+        {children}
         <script
           defer
           src="https://static.cloudflareinsights.com/beacon.min.js"
