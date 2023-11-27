@@ -34,9 +34,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" id="root">
-      <body className={inter.className}>
-        <ClerkProvider>{children}</ClerkProvider>
-      </body>
+      <body className={inter.className}>{children}</body>
     </html>
   );
 }
