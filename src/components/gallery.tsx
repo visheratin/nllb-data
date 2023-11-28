@@ -58,7 +58,7 @@ const GalleryComponent = (props: GalleryProps) => {
             src={`https://nllb-data.com/${imageID}.jpg`}
             alt={`Image ${index}`}
             onClick={() => props.onClick(imageID)}
-            className="cursor-pointer rounded-md shadow-lg"
+            className="cursor-pointer rounded-sm border-2"
           />
         </div>
       ))}

@@ -22,6 +22,20 @@
       "when": 1701050266620,
       "tag": "0002_aspiring_luminals",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1701129618896,
+      "tag": "0003_free_banshee",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1701145513907,
+      "tag": "0004_quick_doomsday",
+      "breakpoints": true
     }
   ]
 }

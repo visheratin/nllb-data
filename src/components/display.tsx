@@ -1,6 +1,11 @@
 "use client";
 import { createRef, useEffect, useState } from "react";
-import { editCaption, getCaptions, reportImage } from "@/db/actions";
+import {
+  editCaption,
+  generateCaption,
+  getCaptions,
+  reportImage,
+} from "@/db/actions";
 import { langMap } from "./languages";
 import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
 import { toast, ToastContainer } from "react-toastify";
@@ -31,6 +36,14 @@ export const DisplayComponent = (props: DisplayComponentProps) => {
       setCaptionValue(caption || "");
     }
   };
+
+  const getButtonClass = (baseClass: string) =>
+    `${baseClass} ${processing ? "opacity-50 cursor-not-allowed" : ""}`;
+
+  const getTextareaClass = (baseClass: string) =>
+    `${baseClass} ${
+      processing ? "bg-gray-300 cursor-not-allowed" : "bg-gray-100"
+    }`;
 
   useEffect(() => {
     if (!props.id || props.id === "") {
@@ -93,6 +106,25 @@ export const DisplayComponent = (props: DisplayComponentProps) => {
     }
   };
 
+  const generateNewCaption = async () => {
+    if (
+      selectRef.current &&
+      selectRef.current.value !== "" &&
+      selectRef.current.value === "eng_Latn"
+    ) {
+      setProcessing(true);
+      try {
+        const caption = await generateCaption(props.id);
+        if (caption !== "") {
+          setCaptionValue(caption);
+        }
+      } catch (e) {
+        toast.error(e as string);
+      }
+      setProcessing(false);
+    }
+  };
+
   return (
     <>
       <ToastContainer position="top-center" autoClose={1500} />
@@ -120,7 +152,9 @@ export const DisplayComponent = (props: DisplayComponentProps) => {
             <SignedIn>
               <textarea
                 dir="auto"
-                className="w-full p-2 text-gray-700 bg-gray-100 border border-gray-300 rounded-sm focus:ring-blue-500 focus:border-blue-500"
+                className={getTextareaClass(
+                  "w-full p-2 text-gray-700 border border-gray-300 rounded-sm focus:ring-blue-500 focus:border-blue-500"
+                )}
                 value={captionValue}
                 onChange={(e) => setCaptionValue(e.target.value)}
                 rows={3}
@@ -128,15 +162,28 @@ export const DisplayComponent = (props: DisplayComponentProps) => {
               ></textarea>
               <div>
                 <button
-                  className="w-full p-2 text-white bg-blue-500 rounded-sm"
+                  className={getButtonClass(
+                    "w-full p-2 text-white bg-blue-500 rounded-sm"
+                  )}
                   disabled={processing}
                   onClick={updateCaption}
                 >
                   Suggest edits
                 </button>
+                <button
+                  className={getButtonClass(
+                    "w-full mt-2 p-2 text-white bg-green-500 rounded-sm"
+                  )}
+                  disabled={processing}
+                  onClick={generateNewCaption}
+                >
+                  Generate caption
+                </button>
                 <textarea
                   dir="auto"
-                  className="w-full mt-3 p-2 text-gray-700 bg-gray-100 border border-gray-300 rounded-sm focus:ring-blue-500 focus:border-blue-500"
+                  className={getTextareaClass(
+                    "w-full mt-3 p-2 text-gray-700 border border-gray-300 rounded-sm focus:ring-blue-500 focus:border-blue-500"
+                  )}
                   placeholder="Report a problem with this image"
                   rows={2}
                   disabled={processing}
@@ -144,7 +191,9 @@ export const DisplayComponent = (props: DisplayComponentProps) => {
                   onChange={(e) => setReportValue(e.target.value)}
                 ></textarea>
                 <button
-                  className="w-full mt-1 p-2 text-white bg-red-500 rounded-sm"
+                  className={getButtonClass(
+                    "w-full mt-2 p-2 text-white bg-red-500 rounded-sm"
+                  )}
                   disabled={processing}
                   onClick={submitReport}
                 >

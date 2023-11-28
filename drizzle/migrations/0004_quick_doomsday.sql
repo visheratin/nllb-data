@@ -1,0 +1,1 @@
+ALTER TABLE generated_captions ADD `user_id` text DEFAULT '';

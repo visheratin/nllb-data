@@ -55,3 +55,21 @@ export const reports = sqliteTable(
 
 export type Report = typeof reports.$inferSelect;
 export type InsertReport = typeof reports.$inferInsert;
+
+export const generatedCaptions = sqliteTable(
+  "generated_captions",
+  {
+    id: text("id"),
+    caption: text("caption"),
+    userID: text("user_id").default(""),
+    createdAt: integer("created_at", { mode: "timestamp" }),
+  },
+  (generatedCaptions) => ({
+    generatedCaptionsIndex: uniqueIndex("generatedCaptionsIndex").on(
+      generatedCaptions.id
+    ),
+  })
+);
+
+export type GeneratedCaption = typeof generatedCaptions.$inferSelect;
+export type InsertGeneratedCaption = typeof generatedCaptions.$inferInsert;
