@@ -9,7 +9,6 @@ import {
   generatedCaptions,
   reports,
 } from "./schema";
-import OpenAI from "openai";
 
 export interface StoredCaption {
   lang: string;
@@ -120,7 +119,7 @@ export const generateCaption = async (id: string): Promise<string> => {
   const data = await response.json();
   const caption = data.choices[0].message.content ?? "";
   if (caption !== "") {
-    const generatedCaption = {
+    const generatedCaption: InsertGeneratedCaption = {
       id,
       caption,
       userID: userId,

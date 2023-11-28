@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Plot from "react-plotly.js";
+import { getDataFromDB, openDatabase, storeDataInDB } from "@/db/indexedDB";
 
 interface Coords {
   id: string;
@@ -83,18 +84,28 @@ const ChartComponent = (props: ChartComponentProps) => {
   }, []);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (): Promise<void> => {
       try {
-        const response = await fetch("https://nllb-data.com/view/coords.json");
-        const jsonData = await response.json();
+        const db = await openDatabase();
+        let jsonData = await getDataFromDB(db);
+
+        if (!jsonData) {
+          const response = await fetch(
+            "https://nllb-data.com/view/coords.json"
+          );
+          jsonData = (await response.json()) as Coords[];
+          await storeDataInDB(db, jsonData);
+        }
+
         jsonData.sort(() => Math.random() - 0.5);
         setData(jsonData);
         const subset = jsonData.slice(0, 96);
         const ids = subset.map((item: Coords) => item.id);
         props.onZoom(ids);
-        const xc = [];
-        const yc = [];
-        const cc = [];
+
+        const xc: number[] = [];
+        const yc: number[] = [];
+        const cc: number[] = [];
         for (let i = 0; i < jsonData.length; i++) {
           xc.push(jsonData[i].x);
           yc.push(jsonData[i].y);
