@@ -79,11 +79,7 @@ export const generateCaption = async (id: string): Promise<string> => {
   if (existingCaption) {
     return existingCaption.caption ?? "";
   }
-  console.log("Calling OpenAI");
-  const openai = new OpenAI({
-    baseURL: `https://gateway.ai.cloudflare.com/v1/${process.env.GATEWAY_PATH}/openai`,
-  });
-  const response = await openai.chat.completions.create({
+  const requestBody = {
     model: "gpt-4-vision-preview",
     messages: [
       {
@@ -104,11 +100,27 @@ export const generateCaption = async (id: string): Promise<string> => {
       },
     ],
     max_tokens: 100,
-  });
-  console.log(response);
-  const caption = response.choices[0].message.content ?? "";
+  };
+  const response = await fetch(
+    `https://gateway.ai.cloudflare.com/v1/${process.env.GATEWAY_PATH}/openai/chat/completions`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+      },
+      body: JSON.stringify(requestBody),
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! Status: ${response.status}`);
+  }
+
+  const data = await response.json();
+  const caption = data.choices[0].message.content ?? "";
   if (caption !== "") {
-    const generatedCaption: InsertGeneratedCaption = {
+    const generatedCaption = {
       id,
       caption,
       userID: userId,
