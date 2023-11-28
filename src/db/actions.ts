@@ -79,7 +79,9 @@ export const generateCaption = async (id: string): Promise<string> => {
   if (existingCaption) {
     return existingCaption.caption ?? "";
   }
-  const openai = new OpenAI();
+  const openai = new OpenAI({
+    baseURL: `https://gateway.ai.cloudflare.com/v1/${process.env.GATEWAY_PATH}/openai`,
+  });
   const response = await openai.chat.completions.create({
     model: "gpt-4-vision-preview",
     messages: [
