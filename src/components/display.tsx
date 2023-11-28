@@ -69,6 +69,7 @@ export const DisplayComponent = (props: DisplayComponentProps) => {
       });
       res.sort((a, b) => a.language.localeCompare(b.language));
       setCaptions(res);
+
       setValueFromSelect(res);
     });
   }, [props.id]);
