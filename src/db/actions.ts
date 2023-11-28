@@ -79,6 +79,7 @@ export const generateCaption = async (id: string): Promise<string> => {
   if (existingCaption) {
     return existingCaption.caption ?? "";
   }
+  console.log("Calling OpenAI");
   const openai = new OpenAI({
     baseURL: `https://gateway.ai.cloudflare.com/v1/${process.env.GATEWAY_PATH}/openai`,
   });
