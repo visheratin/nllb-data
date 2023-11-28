@@ -103,7 +103,6 @@ export const generateCaption = async (id: string): Promise<string> => {
     max_tokens: 100,
   });
   console.log(response);
-
   const caption = response.choices[0].message.content ?? "";
   if (caption !== "") {
     const generatedCaption: InsertGeneratedCaption = {
