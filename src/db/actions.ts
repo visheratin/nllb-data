@@ -71,7 +71,7 @@ export const reportImage = async (id: string, reason: string) => {
 export const generateCaption = async (id: string): Promise<string> => {
   const { userId } = auth();
   if (!userId) {
-    throw new Error("You must be signed in to report an image");
+    throw new Error("You must be signed in to generate captions");
   }
   const existingCaption = await db.query.generatedCaptions.findFirst({
     where: (generatedCaptions, { eq }) => eq(generatedCaptions.id, id),
@@ -102,16 +102,17 @@ export const generateCaption = async (id: string): Promise<string> => {
     ],
     max_tokens: 100,
   });
+  console.log(response);
   const caption = response.choices[0].message.content ?? "";
   if (caption !== "") {
-    const update: InsertGeneratedCaption = {
+    const generatedCaption: InsertGeneratedCaption = {
       id,
       caption,
       userID: userId,
       createdAt: new Date(),
     };
     try {
-      await db.insert(generatedCaptions).values(update);
+      await db.insert(generatedCaptions).values(generatedCaption);
     } catch (e) {
       console.log(e);
     }
